@@ -1,11 +1,28 @@
 <template>
-  <div class="base-spinner fa-3x">
+
+  <div v-if="visible" class="base-spinner fa-3x">
     <i class="fas fa-circle-notch fa-spin"></i>
   </div>
+
 </template>
 
 <script>
-export default {};
+export default {
+  data () {
+    return {
+      visible: false
+    }
+  },
+  created () {
+    this.$root.$on('Spinner::show', this.alternarSpinner)
+    this.$root.$on('Spinner::hide', this.alternarSpinner)
+  },
+  methods: {
+    alternarSpinner () {
+      this.visible = !this.visible
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
