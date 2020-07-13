@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: () => import('../pages/home/Home')
   },
   {
@@ -18,6 +18,14 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if(!window.uid && to.name != 'login'){
+    next({name: 'login'})
+  } else {
+  next()
+  }
 })
 
 export default router

@@ -17,7 +17,16 @@
             placeholder="Senha"
           />
         </div>
-        <button class="btn btn-primary btn-block">Entrar</button>
+        <button class="btn btn-primary btn-block" :disabled="loading">
+          <template v-if="loading">
+            Entrando...
+            <i class="fa fa-spinner fa-spin"></i>
+          </template>
+          <template v-else>
+            Entrar
+            <i class="fa fa-sign-in-alt"></i>
+          </template>
+        </button>
       </div>
     </div>
   </form>
@@ -26,23 +35,38 @@
 <script>
 export default {
   name: "Login",
-  data: () => ({
-    email: "",
-    password: ""
-  }),
+  data: () => {
+    return {
+      loading: false,
+      email: "",
+      password: ""
+    };
+  },
   methods: {
     async doLogin() {
-      const { email, password } = this
+      this.loading = true;
+      const { email, password } = this;
 
       try {
         const res = await this.$firebase
           .auth()
-          .signInWithEmailAndPassword(email, password)
+          .signInWithEmailAndPassword(email, password);
 
-        console.log(res)
+        window.uid = res.user.uid;
+
+        this.$router.push({ name: "home" });
       } catch (err) {
-        console.log(err)
+        console.log(err);
+      } finally {
+        this.loading = false;
       }
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        if(window.uid){
+          vm.$router.push({ name: 'home'})
+        }
+      })
     }
   }
 };
