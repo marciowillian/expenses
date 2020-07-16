@@ -56,14 +56,14 @@ export default {
         this.$router.push({ name: "home" });
       } catch (err) {
         console.log(err);
-        this.loading = false;
-      } finally {
       }
       this.loading = false;
     },
     beforeRouteEnter(to, from, next) {
+      console.log('Entrei no beforeRouterEnter')
       next(vm => {
         if (window.uid) {
+          console.log('UID do usuário logado: ' + window.uid)
           vm.$router.push({ name: "home" });
         }
       });

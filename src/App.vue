@@ -5,10 +5,11 @@
 
     <div class="container-fluid" v-if="isLogged">
       <div class="row">
-        <div class="col-3">
+        <div class="col-2 navigation-sidebar">
+          <h1 class="app-title">Expenses</h1>
           <layout-navigation/>
         </div>
-        <div class="row">
+        <div class="col-10 row">
           <router-view/>
         </div>
       </div>
@@ -50,5 +51,13 @@ export default {
   min-height: 100vh;
   color: var(--light);
   background-color: var(--darker);
+  .navigation-sidebar {
+    background-color: var(--dark-medium);
+    .app-title {
+      font-size: 20pt;
+      margin-top: 10px;
+      text-align: center;
+    }
+  }
 }
 </style>

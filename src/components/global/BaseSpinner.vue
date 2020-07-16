@@ -14,8 +14,8 @@ export default {
     }
   },
   created () {
-    this.$root.$on('Spinner::show', () => {this.visible = !this.visible})
-    this.$root.$on('Spinner::hide', () => {this.visible = !this.visible})
+    this.$root.$on('Spinner::show', () => {this.visible = true})
+    this.$root.$on('Spinner::hide', () => {this.visible = false})
   },
   methods: {
   }

@@ -7,12 +7,27 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../pages/home/Home')
+    meta: {
+      icon: 'home', title: 'Home'
+    },
+    component: () => import(/* webpackChunckName: home */'../pages/home/Home')
+  },
+  {
+    path: '/lista-gastos',
+    name: 'lista-gastos',
+    meta: {
+      icon: 'list-ul', title: 'Lista Gastos'
+    },
+    component: () => import(
+      /* webpackChunckName: lista-gastos */
+      '../pages/lista-gastos/ListaGastos'
+    )
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('../pages/login/Login')
+    meta: {title: 'Login'},
+    component: () => import(/* webpackChunckName: login */'../pages/login/Login')
   }
 ]
 
@@ -21,6 +36,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  document.title = `${to.meta.title} - Expenses`
+
   if(!window.uid && to.name != 'login'){
     next({name: 'login'})
   } else {
