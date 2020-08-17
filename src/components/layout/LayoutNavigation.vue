@@ -12,8 +12,8 @@
         <i class="fa" :class="`fa-${router.meta.icon}`"></i>
         {{ router.meta.title }}
       </router-link>
-      <hr>
-      <layout-new-expenses/>
+      <hr />
+      <layout-new-expenses />
     </div>
 
     <layout-logout />
@@ -22,18 +22,18 @@
 
 <script>
 import LayoutLogout from "./LayoutLogout";
-import LayoutNewExpenses from './LayoutNewExpenses';
+import LayoutNewExpenses from "./LayoutNewExpenses";
 
 export default {
   components: {
     LayoutLogout,
-    LayoutNewExpenses
+    LayoutNewExpenses,
   },
   computed: {
     routerLinks() {
-      return this.$router.options.routes.filter(r => r.name != "login");
-    }
-  }
+      return this.$router.options.routes.filter((r) => r.name != "login");
+    },
+  },
 };
 </script>
 

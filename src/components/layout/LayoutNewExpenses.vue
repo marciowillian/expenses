@@ -62,6 +62,7 @@ export default {
   methods: {
     submit () {
       console.log('ok')
+      
     },
     closeModal() {
       this.showModal = false;
