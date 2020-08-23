@@ -7,40 +7,37 @@
 
     <form @submit.prevent="submit()">
       <div
-      class="modal fade"
-      :class="{show: showModal}"
-      :style="{display: showModal ? 'block' : 'none'}"
-    >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLiveLabel">Adicionar novo gasto</h5>
-            <button type="button" class="close" @click="closeModal()" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="form-group col-8">
-                <label for="">Descrição:</label>
-                <input v-model="form.description" type="text" class="form-control" required>
-              </div>
-              <div class="form-group col-4">
-                <label for="">Valor (R$):</label>
-                <input v-model="form.value" type="text" class="form-control" required>
+        class="modal fade"
+        :class="{show: showModal}"
+        :style="{display: showModal ? 'block' : 'none'}"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLiveLabel">Adicionar novo gasto</h5>
+              <button type="button" class="close" @click="closeModal()" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="form-group col-8">
+                  <label for="">Descrição:</label>
+                  <input v-model="form.description" type="text" class="form-control" required />
+                </div>
+                <div class="form-group col-4">
+                  <label for="">Valor (R$):</label>
+                  <input v-model="form.value" type="text" class="form-control" required />
+                </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeModal()">Fechar</button>
-            <button @click="submit()" class="btn btn-primary">
-              Incluir novo gasto
-              </button>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="closeModal()">Fechar</button>
+              <button class="btn btn-primary">Incluir novo gasto</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
     </form>
     <div
       class="modal-backdrop fade"
@@ -55,18 +52,37 @@ export default {
   data: () => ({
     showModal: false,
     form: {
-      value: '',
-      description: ''
-    }
-    }),
+      value: "",
+      description: "",
+    },
+  }),
   methods: {
-    submit () {
-      console.log('ok')
+    submit() {
+      this.$root.$emit('Spinner::show')
+      const ref = this.$firebase.database().ref(window.uid)
+      const id = ref.push().key
+
+      const payload = {
+        id,
+        receipt: '',
+        value: this.form.value,
+        createdAt: new Date().getTime(),
+        description: this.form.description
+      }
+
+      ref.child(id).set(payload, err => {
+        this.$root.$emit('Spinner::hide')
+        if(err) {
+          console.error(err)
+        } else {
+          this.closeModal()
+        }
+      })
     },
     closeModal() {
       this.showModal = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
